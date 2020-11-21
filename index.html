@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixle Draw</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header>RETRO DRAW</header>
+    <section class="create-grid" style="margin-bottom: 10px;">
+      <button>Create Grid</button>
+      <input type="number" class="columns">
+      <input type="number" class="rows">
+    </section>
+    <main>
+      <section class="palette">
+      </section>
+      <section class="grid"></section>
+      <section class="controls">
+        <button class="fill-all">FILL ALL CELLS</button>
+        <button class="fill-empty">FILL EMPTY CELLS</button>
+        <button class="clear">CLEAR ALL CELLS</button>
+    
+        <button class="add-color">Add Color</button>
+        Enter CSS color value
+        <input type="text" value="">
+      </section>
+    </main>
+</body>
+</html>
