@@ -67,7 +67,6 @@
   .cell {
     flex: 0 0 64px;
     height: 64px;
-    border: 1px solid black;
   }
   
   .controls button {
@@ -75,4 +74,8 @@
     font-family: sans-serif;
     font-weight: bold;
     padding: 4px;
+  }
+
+  .borders {
+    border: 1px solid black;
   }

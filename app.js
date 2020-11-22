@@ -1,6 +1,7 @@
-
+//declare functions
 
 function makePalette() {
+    //color palette setup
 
     const PALETTE = [
         'red',
@@ -26,32 +27,44 @@ function makePalette() {
 
 let makeGrid = () => {
     for (let i = 0; i < 64; i++) {
-        let div = $('<div class="cell">');
+        let div = $('<div class="cell borders">');
         $('.grid').append(div);
     }
 }
+
+
 const makeGridCustom = (x, y) => {
-    const gridWidth = 64 * y + 2;
-    const cellWidth = gridWidth / x;
+    
+    const cellWidth = Math.floor(514 / x); 
+    const gridWidth = (cellWidth * x) + 2;//how to avoid +2
     const gridHeight = cellWidth * y
 
     const gridHeightString = Math.floor(gridHeight) + "px";
     const gridWidthString = Math.floor(gridWidth) + "px";
     const cellWidthString = Math.floor(cellWidth) + "px";
     
-    $('div.cell').css({
-        width: cellWidthString,
-        height: cellWidthString
-    });
-    $('.grid').css({
+    for (let i = 0; i < (x * y); i++) {
+        let div = $('<div class="cell borders">');
+        $('.grid').append(div);
+    }
+
+    $('div.cell')
+        .css('flex-basis', cellWidthString)
+        .css('height', cellWidthString);
+    $('.grid')
+    .css({
         width: gridWidthString,
         height: gridHeightString
     });
-    for (let i = 0; i < (x * y); i++) {
-        let div = $('<div class="cell">');
-        $('.grid').append(div);
-    }
+
+    //call event listeners
+    $('.grid .cell').mousedown(onMousedown);
+    $('*').mouseup(onMouseup);
+    $('.grid .cell').mouseenter(onMouseenter);
+
 }
+
+//event handlers
 
 function onPaletteClick() {
     
@@ -62,15 +75,8 @@ function onPaletteClick() {
 
 }
 
-// function onGridClick() {
-//     const target = $(this);
-//     const colorSource = $('.palette .active').css('background-color');
-//     if (target.css('background-color') === colorSource) {
-//         target.css('background-color', "");
-//     } else {
-//         target.css('background-color', colorSource);
-//     }
-// }
+
+
 
 function onClearClick() {
     $('.grid .cell').css('background-color', '');
@@ -95,6 +101,9 @@ function onAddColorClick() {
     $('.palette button.active').removeClass('active');
     $('.palette').prepend($('<button>').css('background-color', colorSource).addClass('active'));
 
+    //call event listeners
+    $('.palette button').click(onPaletteClick);
+
 }
 
 function onCreateGridClick() {
@@ -109,24 +118,8 @@ function onCreateGridClick() {
 
 }
 
-//set variables
-let mouseIsDown = false;
+function onMousedown () {
 
-//call functions
-makeGrid();
-makePalette();
-
-//Event Listeners
-$('.palette button').click(onPaletteClick);
-// $('.grid div.cell').click(onGridClick);
-$('.controls .clear').click(onClearClick);
-$('.controls .fill-all').click(onFillAllClick);
-$('.controls .fill-empty').click(onFillEmptyClick);
-$('.controls .add-color').click(onAddColorClick);
-
-$('.create-grid button').click(onCreateGridClick);
-
-$('.grid .cell').mousedown(function () {
     mouseIsDown = true;
     const target = $(this);
     const colorSource = $('.palette .active').css('background-color');
@@ -135,14 +128,13 @@ $('.grid .cell').mousedown(function () {
     } else {
         target.css('background-color', colorSource);
     }
-    // console.log("mouse is down:" + mouseIsDown)
-})
+}
 
-$('*').mouseup(function (){
-    mouseIsDown = false;
-    // console.log("mouse is down:" + mouseIsDown)
-})
-$('.grid .cell').mouseenter(function() {
+function onMouseup () {
+        mouseIsDown = false;
+        // console.log("mouse is down:" + mouseIsDown)
+}
+function onMouseenter () {
     if (mouseIsDown === true) {
         const target = $(this);
         const colorSource = $('.palette .active').css('background-color');
@@ -153,7 +145,35 @@ $('.grid .cell').mouseenter(function() {
         }
 
     }
-})
+}
+
+function onToggleBordersClick () {
+    $('.grid .cell')
+    .toggleClass('borders')
+}
+
+//set variables
+let mouseIsDown = false;
+
+//call functions
+makeGrid();
+makePalette();
+
+//Event Listeners
+$('.palette button').click(onPaletteClick);
+
+// $('.grid div.cell').click(onGridClick);
+$('.controls .clear').click(onClearClick);
+$('.controls .fill-all').click(onFillAllClick);
+$('.controls .fill-empty').click(onFillEmptyClick);
+$('.controls .add-color').click(onAddColorClick);
+$('.controls .toggle-borders').click(onToggleBordersClick);
+
+$('.create-grid button').click(onCreateGridClick);
+
+$('.grid .cell').mousedown(onMousedown);
+$('*').mouseup(onMouseup);
+$('.grid .cell').mouseenter(onMouseenter);
 
 //having trouble making new colors active
 //having trouble making new grids react to clicks
